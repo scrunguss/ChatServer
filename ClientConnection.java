@@ -23,6 +23,7 @@ public class ClientConnection extends Thread {
                 messageBuilder.append(message);
             }
             input.close();
+            reader.close();
             System.out.println(messageBuilder.toString());
         } catch (IOException e) {
             e.printStackTrace();

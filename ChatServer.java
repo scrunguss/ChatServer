@@ -8,8 +8,21 @@ public class ChatServer {
         ServerSocket socket = null;
         Socket clientSocket = null;
         try {
-            socket = new ServerSocket(DEFAULT);
-            System.out.println("Server socket " + DEFAULT + " opened...");
+            Integer port = DEFAULT;;
+            if(args.length != 0){
+                if(args[0].equals("-csp")){                   
+                    try{
+                         port = Integer.parseInt(args[1]);
+                    } catch(Exception e){
+                        System.out.println("Invalid port number, using default..");
+                    }
+                }
+                else{
+                    System.out.println("Invalid argument.");
+                }
+            }
+            socket = new ServerSocket(port);
+            System.out.println("Server socket " + port + " opened...");
         } catch (IOException e) {
             System.err.println("Port not accessible, exiting...");
             System.exit(1);
