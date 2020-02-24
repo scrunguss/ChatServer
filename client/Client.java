@@ -1,39 +1,45 @@
 package client;
 
-import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public class Client {
-    private BufferedReader in;
-    private PrintWriter out;
 
-    public void connectToServer(String IP, int port){
-        
-        Socket socket = null;
+    private Socket socket;
+
+    public void connectToServer(String IP, int port){    
         try{ 
-            socket = new Socket(IP, port);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(IP, port),1500);
+            System.out.println("Connected to server at "+IP);
+            System.out.println("Enter a message: ");
         } catch (UnknownHostException e){
             System.out.println("Host not found, exiting...");
+            System.exit(1);
+        } catch (SocketTimeoutException e){
+            System.out.println("Connection timed out, exiting...");
             System.exit(1);
         } catch (IOException e){
             System.out.println("I/O Error occured, exiting...");
             System.exit(1);
-        }
+        } 
         
 
     }
 
-    public BufferedReader getIn(){
-        return in;
+    public String getInput(){
+        Console console = System.console();
+        String input = "";
+        System.out.print("$ ");
+        input = console.readLine();
+        return input;
     }
 
-    public PrintWriter getOut(){
-        return out;
+    public Socket getSocket(){
+        return socket;
     }
 }
