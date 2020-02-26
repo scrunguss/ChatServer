@@ -1,18 +1,13 @@
 package client;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ChatClient {
 
     private static String DEFAULT_IP = "127.0.0.1";
     private static int DEFAULT_PORT = 14001;
-    private static int MAX_ARGS = 4;
 
     public static void main(String[] args) {
         final Lock promptLock = new ReentrantLock();
@@ -24,9 +19,6 @@ public class ChatClient {
 
             for (int i = 0; i < args.length; i++) {
                 if(!valid){
-                    System.out.print("Invalid Arguments, using defaults...");
-                    IP = DEFAULT_IP;
-                    port = DEFAULT_PORT;
                     break;
                 }
 
@@ -48,7 +40,13 @@ public class ChatClient {
                     valid = false;                    
                 }
             }
+            if(!valid){
+                System.out.println("Invalid Arguments, using defaults...");
+                IP = DEFAULT_IP;
+                port = DEFAULT_PORT;
+            }
         }
+        
 
         Client client = new Client();
         client.connectToServer(IP,port);
