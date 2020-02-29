@@ -14,7 +14,7 @@ public class ClientConnection extends Thread {
     private PrintWriter sender;
     private BufferedReader reader;
     private boolean messageAdded = false;
-    private boolean messageSent = false;
+    private long lastMessageID = -1;
 
     public ClientConnection(Socket socket, MessageMap messageMap) {
         System.out.print("Client Connected, UID : ");
@@ -31,11 +31,6 @@ public class ClientConnection extends Thread {
         UserID = Thread.currentThread().getId();
         System.out.println(Long.toString(UserID));
         while(true){
-            if(messageMap.isMessageAdded() == true && messageSent == false){
-                sender.println(messageMap.getLast());
-                messageAdded = false;
-                messageSent = true;
-            }
             try {
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 sender = new PrintWriter(socket.getOutputStream(), true);
@@ -44,8 +39,6 @@ public class ClientConnection extends Thread {
                 if(!message.equals("")){
                     System.out.println(message);
                     messageMap.add(UserID, message);
-                    messageMap.setMessageAdded(true);
-                    messageSent = false;
                 }
             } catch (IOException | NullPointerException e) {
                 try{
@@ -57,7 +50,10 @@ public class ClientConnection extends Thread {
                     return;
                 }
             }
-            
+            if(messageMap.getLastID() != lastMessageID){
+                sender.println(messageMap.getLast());
+                lastMessageID = messageMap.getLastID();
+            }          
         }
     }
 }

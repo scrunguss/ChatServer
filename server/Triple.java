@@ -1,13 +1,15 @@
 package server;
 
-public class Pair<K,V>{
+public class Triple<K,V,I>{
 
     public final K key;
     public final V value;
+    public final I id;
 
-    public Pair(K key, V value){
+    public Triple(K key, V value, I id){
         this.key = key;
         this.value = value;
+        this.id = id;
     }
 
 }
