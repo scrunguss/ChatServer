@@ -12,7 +12,7 @@ public class MessageReceiver extends Thread {
     Socket socket;
     Lock promptLock;
 
-    public MessageReceiver(Socket socket, Lock promptLock) {
+    public MessageReceiver(Socket socket) {
         try {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
@@ -20,14 +20,16 @@ public class MessageReceiver extends Thread {
             e.printStackTrace();
         }
         this.socket = socket;
-        this.promptLock = promptLock;
 	}
 
 	@Override
     public void run(){
         while(true){
             try{
-                System.out.println(in.readLine());
+                String message = in.readLine();
+                if(message != null){
+                    System.out.println("\n"+message);
+                }
             } catch (IOException e){
                 System.out.println("I/O Error occured, exiting...");
                 e.printStackTrace();

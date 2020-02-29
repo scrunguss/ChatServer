@@ -10,7 +10,7 @@ public class MessageSender extends Thread {
     Client client;
     Lock promptLock;
 
-    public MessageSender(Client client, Lock promptLock) {
+    public MessageSender(Client client) {
         this.client = client;
         try {
             out = new PrintWriter(client.getSocket().getOutputStream(), true);
@@ -18,7 +18,6 @@ public class MessageSender extends Thread {
             System.out.println("I/O Error occured, exiting...");
             e.printStackTrace();
         }
-        this.promptLock = promptLock;
     }
 
     @Override
@@ -26,6 +25,13 @@ public class MessageSender extends Thread {
         while(true){
                 String input = "$ "+client.getInput();
                 out.println(input);
+                try{
+                    Thread.sleep(30);
+                } catch(InterruptedException e){
+                    if(isInterrupted()){
+                        e.printStackTrace();
+                    }
+                }
         }
     }
 }

@@ -1,8 +1,6 @@
 package client;
 
 import java.util.Arrays;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ChatClient {
 
@@ -10,7 +8,6 @@ public class ChatClient {
     private static int DEFAULT_PORT = 14001;
 
     public static void main(String[] args) {
-        final Lock promptLock = new ReentrantLock();
         String IP = DEFAULT_IP;
         int port = DEFAULT_PORT;
         System.out.println(Arrays.toString(args));
@@ -50,8 +47,8 @@ public class ChatClient {
 
         Client client = new Client();
         client.connectToServer(IP,port);
-        //new MessageReceiver(client.getSocket(),promptLock).start();;
-        new MessageSender(client,promptLock).start();
+        new MessageReceiver(client.getSocket()).start();;
+        new MessageSender(client).start();
 
     }
 
