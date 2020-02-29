@@ -29,7 +29,9 @@ public class ChatServer {
             System.err.println("Port not accessible, exiting...");
             System.exit(1);
         }
-
+        MessageMap messageMap = new MessageMap();
+        //ThreadManager threadManager = new ThreadManager(messageMap);
+        //threadManager.start();
         while (true) {
             try {
                 clientSocket = socket.accept();
@@ -42,7 +44,9 @@ public class ChatServer {
                 }
                 System.exit(1);
             }
-            new ClientConnection(clientSocket).start();
+            ClientConnection newClient = new ClientConnection(clientSocket,messageMap);
+            newClient.start();
+            //threadManager.add(newClient);
         }
 
     }
