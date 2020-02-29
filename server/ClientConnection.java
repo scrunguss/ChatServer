@@ -8,9 +8,10 @@ import java.net.Socket;
 public class ClientConnection extends Thread {
 
     private Socket socket;
+    public long UserID = Thread.currentThread().getId();
 
     public ClientConnection(Socket socket) {
-        System.out.println("Client Connected..");
+        System.out.println("Client Connected, UID : "+Long.toString(UserID));
         this.socket = socket;
     }
 

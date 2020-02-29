@@ -43,8 +43,6 @@ public class ChatServer {
                 System.exit(1);
             }
             new ClientConnection(clientSocket).start();
-            
-
         }
 
     }

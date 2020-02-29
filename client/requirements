@@ -1,0 +1,22 @@
+4.  The server broadcasts all messages received to all connected clients.
+6.  The server shuts down cleanly if its user enter EXIT on the terminal.
+
+3.  The client must be able to receive messages sent from the server.
+4.  The client should output all messages received by the server.
+
+Allow user(s) to talk to a chat bot - note we do not expect you to implement AI and NLP algorithms,
+rather you can achieve full marks with a chat bot that provides simple (e.g. pre-scripted) responses
+to user interactions with the chat bot. See for example https://rubberduckdebugging.com/.The chat bot
+ must be run as a client (i.e. run with an IP address and port provided as commandline arguments,
+  then connect to the specified server).
+
+Allow your user(s) to play Dungeons of Doom!  Adapt your DoD implementation so that it can connect to
+ the server as a DoDClient.  i.e.  The IP address and port are provided as command linearguments, then
+  connects to the specified server.  The DoDClient should then allow other users tojoin and control a
+   player in the Dungeon of Doom.For example:> [Alan] JOIN> [DoDClient] Player Alan has been spawned.
+   > [Ben] JOIN> [DoDClient] Player Ben has been spawned.
+   > [Alan] MOVE W> [DoDClient] Player Alan: SUCCESS.
+   > [Alan] EXIT> [DoDClient] Player Alan has exited.
+You will get additional marks for the DoDClient only sending responses to individual players.
+E.g. if player Alan calls LOOK, only Alan should see the map in response.
+
