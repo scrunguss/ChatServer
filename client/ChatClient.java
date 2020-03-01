@@ -47,7 +47,7 @@ public class ChatClient {
 
         Client client;
         if(runAsBot){
-            client = new Human();
+            client = new Bot();
         }
         else{
             client = new Human();

@@ -15,7 +15,8 @@
             "name": "Debug (Launch)-ChatClient<chatServer_18ffe7c1>",
             "request": "launch",
             "mainClass": "client.ChatClient",
-            "projectName": "chatServer_18ffe7c1"
+            "projectName": "chatServer_18ffe7c1",
+            "args": ["-b"]
         },
         {
             "type": "java",
