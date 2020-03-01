@@ -1,6 +1,3 @@
-4.  The server broadcasts all messages received to all connected clients.
-6.  The server shuts down cleanly if its user enter EXIT on the terminal.
-
 Allow user(s) to talk to a chat bot - note we do not expect you to implement AI and NLP algorithms,
 rather you can achieve full marks with a chat bot that provides simple (e.g. pre-scripted) responses
 to user interactions with the chat bot. See for example https://rubberduckdebugging.com/.The chat bot

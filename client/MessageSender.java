@@ -22,11 +22,12 @@ public class MessageSender extends Thread {
 
     @Override
     public void run(){
+        System.out.println("You can now begin chatting : ");
         while(true){
-                String input = "$ "+client.getInput();
+                String input = client.getInput();
                 out.println(input);
                 try{
-                    Thread.sleep(30);
+                    Thread.sleep(50);
                 } catch(InterruptedException e){
                     if(isInterrupted()){
                         e.printStackTrace();

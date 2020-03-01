@@ -1,7 +1,5 @@
 package client;
 
-import java.util.Arrays;
-
 public class ChatClient {
 
     private static String DEFAULT_IP = "127.0.0.1";
@@ -10,7 +8,6 @@ public class ChatClient {
     public static void main(String[] args) {
         String IP = DEFAULT_IP;
         int port = DEFAULT_PORT;
-        System.out.println(Arrays.toString(args));
         if (args.length != 0) {
             boolean valid = true;
 

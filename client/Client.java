@@ -16,7 +16,6 @@ public class Client {
             socket = new Socket();
             socket.connect(new InetSocketAddress(IP, port),1500);
             System.out.println("Connected to server at "+IP);
-            System.out.println("Enter a message: ");
         } catch (UnknownHostException e){
             System.out.println("Host not found, exiting...");
             System.exit(1);
@@ -34,7 +33,6 @@ public class Client {
     public String getInput(){
         Console console = System.console();
         String input = "";
-        System.out.print("$ ");
         input = console.readLine();
         return input;
     }

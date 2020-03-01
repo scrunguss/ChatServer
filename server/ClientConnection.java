@@ -3,23 +3,21 @@ package server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientConnection extends Thread {
 
     private Socket socket;
-    public long UserID;
+    private long UserID;
     private MessageMap messageMap;
-    private PrintWriter sender;
+    private ThreadManager threadManager;
     private BufferedReader reader;
-    private boolean messageAdded = false;
-    private long lastMessageID = -1;
 
-    public ClientConnection(Socket socket, MessageMap messageMap) {
+    public ClientConnection(Socket socket, MessageMap messageMap, ThreadManager threadManager) {
         System.out.print("Client Connected, UID : ");
         this.socket = socket;
         this.messageMap = messageMap;
+        this.threadManager = threadManager;
     }
 
     public long getUserID(){
@@ -30,15 +28,16 @@ public class ClientConnection extends Thread {
     public void run() {
         UserID = Thread.currentThread().getId();
         System.out.println(Long.toString(UserID));
+        threadManager.assign(UserID, socket);
         while(true){
             try {
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                sender = new PrintWriter(socket.getOutputStream(), true);
                 String message;
                 message = reader.readLine();
                 if(!message.equals("")){
                     System.out.println(message);
                     messageMap.add(UserID, message);
+                    threadManager.broadcast(message,UserID);
                 }
             } catch (IOException | NullPointerException e) {
                 try{
@@ -50,10 +49,6 @@ public class ClientConnection extends Thread {
                     return;
                 }
             }
-            if(messageMap.getLastID() != lastMessageID){
-                sender.println(messageMap.getLast());
-                lastMessageID = messageMap.getLastID();
-            }          
         }
     }
 }

@@ -30,8 +30,7 @@ public class ChatServer {
             System.exit(1);
         }
         MessageMap messageMap = new MessageMap();
-        //ThreadManager threadManager = new ThreadManager(messageMap);
-        //threadManager.start();
+        ThreadManager threadManager = new ThreadManager(messageMap);
         while (true) {
             try {
                 clientSocket = socket.accept();
@@ -44,9 +43,7 @@ public class ChatServer {
                 }
                 System.exit(1);
             }
-            ClientConnection newClient = new ClientConnection(clientSocket,messageMap);
-            newClient.start();
-            //threadManager.add(newClient);
+            threadManager.add(clientSocket);
         }
 
     }
