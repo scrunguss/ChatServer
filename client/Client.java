@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 public abstract class Client {
 
     private Socket socket;
+    private String lastMessageReceived;
 
     public void connectToServer(String IP, int port){    
         try{ 
@@ -32,4 +33,8 @@ public abstract class Client {
     }
 
     public abstract String getInput();
+
+    public void setLastMessageReceived(String message){
+        lastMessageReceived = message;
+    }
 }

@@ -53,7 +53,7 @@ public class ChatClient {
             client = new Human();
         }    
         client.connectToServer(IP,port);
-        new MessageReceiver(client.getSocket()).start();;
+        new MessageReceiver(client).start();;
         new MessageSender(client).start();
 
     }
