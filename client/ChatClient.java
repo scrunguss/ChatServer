@@ -8,6 +8,7 @@ public class ChatClient {
     public static void main(String[] args) {
         String IP = DEFAULT_IP;
         int port = DEFAULT_PORT;
+        boolean runAsBot = false;
         if (args.length != 0) {
             boolean valid = true;
 
@@ -15,15 +16,18 @@ public class ChatClient {
                 if(!valid){
                     break;
                 }
-
-                if (args[i].equals("-ccp") && args.length >= i + 1) {
+                if (args[i].equals("-b")){
+                    valid = true;
+                    runAsBot = true;
+                }
+                else if (args[i].equals("-ccp") && args.length > i + 1) {
                     valid = checkPort(args[i+1]);
                     if(valid){
                         port = Integer.parseInt(args[i+1]);
                     }
                     i++;                 
                 }
-                else if (args[i].equals("-cca") && args.length >= i + 1) {
+                else if (args[i].equals("-cca") && args.length > i + 1) {
                     valid = checkIP(args[i+1]);
                     if(valid){
                         IP = args[i+1];
@@ -40,9 +44,14 @@ public class ChatClient {
                 port = DEFAULT_PORT;
             }
         }
-        
 
-        Client client = new Client();
+        Client client;
+        if(runAsBot){
+            client = new Human();
+        }
+        else{
+            client = new Human();
+        }    
         client.connectToServer(IP,port);
         new MessageReceiver(client.getSocket()).start();;
         new MessageSender(client).start();

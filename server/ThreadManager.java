@@ -9,19 +9,33 @@ import java.util.List;
     public class ThreadManager{
 
     List<ClientConnection> threadGroup = new ArrayList<ClientConnection>();
+    List<ClientConnection> chatBotGroup = new ArrayList<ClientConnection>();
+    List<ClientConnection> doDGroup = new ArrayList<ClientConnection>();
     List<Socket> clientSockets = new ArrayList<Socket>();
     private MessageMap messageMap;
     private PrintWriter sender;
+    private int GENERAL_GROUP_CODE = 1;
+    private int CHAT_GROUP_CODE = 2;
+    private int DOD_GROUP_CODE = 3;
 
     public ThreadManager(MessageMap messageMap){
         this.messageMap = messageMap;
     }
 
     public void add(Socket clientSocket){
-        ClientConnection thread = new ClientConnection(clientSocket,messageMap,this);
+        ClientConnection thread = new ClientConnection(clientSocket,messageMap,this,CHAT_GROUP_CODE,DOD_GROUP_CODE,GENERAL_GROUP_CODE);
         threadGroup.add(thread);
         clientSockets.add(clientSocket);
         thread.start();
+    }
+
+    public synchronized void addToGroup(ClientConnection client, int GROUP_CODE){
+        if(GROUP_CODE == CHAT_GROUP_CODE){
+            chatBotGroup.add(client);
+        }
+        else if (GROUP_CODE == DOD_GROUP_CODE){
+            doDGroup.add(client);
+        }
     }
 
     public synchronized void assign(long UserID, Socket socket){

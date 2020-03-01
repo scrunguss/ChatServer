@@ -22,7 +22,6 @@ public class MessageSender extends Thread {
 
     @Override
     public void run(){
-        System.out.println("You can now begin chatting : ");
         while(true){
                 String input = client.getInput();
                 out.println(input);

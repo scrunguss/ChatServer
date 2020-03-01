@@ -1,13 +1,12 @@
 package client;
 
-import java.io.Console;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-public class Client {
+public abstract class Client {
 
     private Socket socket;
 
@@ -26,18 +25,11 @@ public class Client {
             System.out.println("I/O Error occured, exiting...");
             System.exit(1);
         } 
-        
-
-    }
-
-    public String getInput(){
-        Console console = System.console();
-        String input = "";
-        input = console.readLine();
-        return input;
     }
 
     public Socket getSocket(){
         return socket;
     }
+
+    public abstract String getInput();
 }
