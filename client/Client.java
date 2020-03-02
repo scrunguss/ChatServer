@@ -5,12 +5,14 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public abstract class Client {
 
     private Socket socket;
-    protected String lastMessageReceived;
     protected long userID;
+    protected BlockingQueue<String> messagesReceived = new ArrayBlockingQueue<String>(50);
 
     public void connectToServer(String IP, int port){    
         try{ 
@@ -35,11 +37,16 @@ public abstract class Client {
 
     public abstract String getInput();
 
-    public void setLastMessageReceived(String message){
-        lastMessageReceived = message;
+    public void addMessage(String message){
+        try{
+            messagesReceived.put(message);
+        }catch(InterruptedException e){
+            System.out.println("Interrupted!");
+            System.exit(1);
+        }
     }
 
-    public void setUserID(long userID){
+    protected void setUserID(long userID){
         this.userID = userID;
     }
 }

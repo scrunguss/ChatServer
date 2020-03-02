@@ -7,6 +7,7 @@ public class Bot extends Client {
     private String lastMessageRespondedTo;
     private HashMap<String, String> responses = new HashMap<String, String>();
     private boolean activated = false;
+    boolean firstServerMessage = true;
 
 
     public Bot(){
@@ -23,27 +24,50 @@ public class Bot extends Client {
     @Override
     public String getInput() {
         while(true){
+            if(firstServerMessage){
+                firstServerMessage = false;
+                try{
+                    setUserID(UserUtility.parseUserID(messagesReceived.take()));
+                } catch(InterruptedException e){
+                    System.out.println("Interrupted!");
+                    System.exit(1);
+                }
+            }
+            String lastMessageReceived = "";
+            try{
+                lastMessageReceived = messagesReceived.take(); 
+            }catch (InterruptedException e){
+                System.out.println("Interrupted!");
+                System.exit(1);
+            }    
             if(lastMessageReceived.contains("CHAT")){
                 activated = true;
                 return "Hi there! You are now chatting to a bot.";
             }
-                try{
-                    Thread.sleep(500);
-                }catch (InterruptedException e){
-                    return null;
-                }
-                if(activated){
-                    if(lastMessageRespondedTo != lastMessageReceived){
+            if(activated){
+                if(lastMessageRespondedTo != lastMessageReceived){
+                    if(userID != UserUtility.parseUserID(lastMessageReceived)){
                         lastMessageRespondedTo = lastMessageReceived;
-                        String message = lastMessageReceived.toLowerCase().replace('?','\0');
+                        if(lastMessageReceived.contains("HELP")){
+                            String response = "";
+                            for(String key : responses.keySet()){
+                                response += key+"?, ";
+                            }
+                            return response;
+                        }
+                        if(lastMessageReceived.contains("QUIT")){
+                            System.exit(1);
+                        }
+                        String message = UserUtility.cleanMessage(lastMessageReceived);
                         if(responses.containsKey(message)){
                             return responses.get(message);
                         }
                         else{
-                            return "I don't know how to answer that.";
+                            return "I don't know how to answer that. type HELP for a list of questions I can answer. type QUIT to kill me";
                         }
                     }
                 }
+            }
         }
     }
 
