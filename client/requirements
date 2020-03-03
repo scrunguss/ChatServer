@@ -1,7 +1,8 @@
 Allow your user(s) to play Dungeons of Doom!  Adapt your DoD implementation so that it can connect to
  the server as a DoDClient.  i.e.  The IP address and port are provided as command linearguments, then
   connects to the specified server.  The DoDClient should then allow other users tojoin and control a
-   player in the Dungeon of Doom.For example:> [Alan] JOIN> [DoDClient] Player Alan has been spawned.
+   player in the Dungeon of Doom.For example:> [Alan] JOIN>
+  [DoDClient] Player Alan has been spawned.
    > [Ben] JOIN> [DoDClient] Player Ben has been spawned.
    > [Alan] MOVE W> [DoDClient] Player Alan: SUCCESS.
    > [Alan] EXIT> [DoDClient] Player Alan has exited.
